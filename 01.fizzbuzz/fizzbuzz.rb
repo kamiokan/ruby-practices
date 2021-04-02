@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-i = 1
-20.times do
+(1..20).each do |i|
   if (i % 3).zero? && (i % 5).zero?
     puts 'FizzBuzz'
   elsif (i % 3).zero?
@@ -12,6 +11,4 @@ i = 1
   else
     puts i
   end
-
-  i += 1
 end
