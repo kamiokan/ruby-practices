@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'date'
+require 'paint'
 
 # y年m月の最初の日を求める
 def get_first_day(year, month)
@@ -42,9 +43,18 @@ def print_week_day
 end
 
 # カレンダー日付を表示する
-def print_days(first_day, last_day)
+def print_days(first_day, last_day, today)
   (first_day..last_day).each do |day|
-    print day.strftime('%e') + ' '
+    output_day = day.strftime('%e')
+
+    # 今日だったら反転して表示する
+    if day == today
+      print "#{Paint[output_day, :black, :green]} "
+    else
+      print "#{output_day} "
+    end
+
+    # 土曜日だったら改行する
     if is_saturday(day)
       puts ''
     end

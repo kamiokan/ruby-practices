@@ -2,7 +2,6 @@
 
 require 'date'
 require 'optparse'
-require 'paint'
 require_relative './lib/cal'
 
 def main
@@ -29,10 +28,9 @@ def main
   print_month_and_year(year, month)
   print_week_day
   print_space(first_day)
-  print_days(first_day, last_day)
+  print_days(first_day, last_day, today)
   puts ''
 
-  puts Paint['hoge', :black, :green]
 end
 
 main
