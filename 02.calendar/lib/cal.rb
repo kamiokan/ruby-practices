@@ -13,11 +13,6 @@ def get_last_day(year, month)
   Date.new(year, month, -1)
 end
 
-# 今日の日付を求める
-def get_today
-  Date.today
-end
-
 # 曜日を取得する
 def get_week_day(date_object)
   date_object.strftime('%a')

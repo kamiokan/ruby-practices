@@ -11,7 +11,7 @@ def main
   month = options['m'].to_i
 
   # 入力があったかどうかチェック
-  today = get_today
+  today = Date.today
   if year.zero? && month.zero?
     year = today.year
     month = today.month
