@@ -24,8 +24,8 @@ def main
   last_day = Date.new(year, month, -1)
 
   # 出力処理
-  print_month_and_year(year, month)
-  print_week_day
+  puts "      #{month}月 #{year}"
+  puts '日 月 火 水 木 金 土'
   print_space(first_day)
   print_days(first_day, last_day, today)
   puts ''

@@ -17,16 +17,6 @@ def is_saturday(day_object)
   end
 end
 
-# 月と年を表示する
-def print_month_and_year(year, month)
-  puts "      #{month}月 #{year}"
-end
-
-# 曜日の行を表示する
-def print_week_day
-  puts '日 月 火 水 木 金 土'
-end
-
 # カレンダー日付を表示する
 def print_days(first_day, last_day, today)
   (first_day..last_day).each do |day|
