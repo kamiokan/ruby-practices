@@ -24,14 +24,7 @@ end
 
 # カレンダー日付の1日の前のスペースを表示する
 def print_space(first_day)
-  space = count_space(first_day)
-  space.times do
+  (3 * first_day.wday).times do
     print ' '
   end
-end
-
-# 1日（初日）の曜日によって、出力前にスペースを出力する
-def count_space(first_day)
-  space_hash = { Sun: 0, Mon: 3, Tue: 6, Wed: 9, Thu: 12, Fri: 15, Sat: 18 }
-  space_hash[:"#{first_day.strftime('%a')}"]
 end
