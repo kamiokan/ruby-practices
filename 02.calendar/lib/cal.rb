@@ -3,20 +3,6 @@
 require 'date'
 require 'paint'
 
-# 曜日を取得する
-def get_week_day(date_object)
-  date_object.strftime('%a')
-end
-
-# 土曜日かどうかチェックする
-def is_saturday(day_object)
-  if get_week_day(day_object) == 'Sat'
-    true
-  else
-    false
-  end
-end
-
 # カレンダー日付を表示する
 def print_days(first_day, last_day, today)
   (first_day..last_day).each do |day|
@@ -30,7 +16,7 @@ def print_days(first_day, last_day, today)
     end
 
     # 土曜日だったら改行する
-    if is_saturday(day)
+    if day.saturday?
       puts ''
     end
   end
