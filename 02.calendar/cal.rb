@@ -12,12 +12,11 @@ def main
 
   # 入力があったかどうかチェック
   today = Date.today
-  if year.zero? && month.zero?
+  if year.zero?
     year = today.year
-    month = today.month
-  elsif year.zero?
-    year = today.year
-  elsif month.zero?
+  end
+
+  if month.zero?
     month = today.month
   end
 
