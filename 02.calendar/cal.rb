@@ -20,8 +20,8 @@ def main
     month = today.month
   end
 
-  first_day = get_first_day(year, month)
-  last_day = get_last_day(year, month)
+  first_day = Date.new(year, month, 1)
+  last_day = Date.new(year, month, -1)
 
   # 出力処理
   print_month_and_year(year, month)

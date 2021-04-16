@@ -3,16 +3,6 @@
 require 'date'
 require 'paint'
 
-# y年m月の最初の日を求める
-def get_first_day(year, month)
-  Date.new(year, month, 1)
-end
-
-# y年m月の最後の日を求める
-def get_last_day(year, month)
-  Date.new(year, month, -1)
-end
-
 # 曜日を取得する
 def get_week_day(date_object)
   date_object.strftime('%a')
