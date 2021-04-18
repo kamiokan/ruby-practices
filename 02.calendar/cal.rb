@@ -29,7 +29,6 @@ def main
   print_space(first_day)
   print_days(first_day, last_day, today)
   puts ''
-
 end
 
 main
