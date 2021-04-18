@@ -5,17 +5,16 @@ require 'optparse'
 require_relative './lib/cal'
 
 def main
+  today = Date.today
+
   # コマンドライン引数を受け取る
   options = ARGV.getopts('m:', 'y:')
   year = options['y'].to_i
-  month = options['m'].to_i
-
-  # 入力があったかどうかチェック
-  today = Date.today
   if year.zero?
     year = today.year
   end
 
+  month = options['m'].to_i
   if month.zero?
     month = today.month
   end
