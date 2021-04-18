@@ -21,10 +21,3 @@ def print_days(first_day, last_day, today)
     end
   end
 end
-
-# カレンダー日付の1日の前のスペースを表示する
-def print_space(first_day)
-  (3 * first_day.wday).times do
-    print ' '
-  end
-end
