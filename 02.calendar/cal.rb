@@ -9,15 +9,8 @@ def main
 
   # コマンドライン引数を受け取る
   options = ARGV.getopts('m:', 'y:')
-  year = options['y'].to_i
-  if year.zero?
-    year = today.year
-  end
-
-  month = options['m'].to_i
-  if month.zero?
-    month = today.month
-  end
+  year = (options['y'] || today.year).to_i
+  month = (options['m'] || today.month).to_i
 
   first_day = Date.new(year, month, 1)
   last_day = Date.new(year, month, -1)
