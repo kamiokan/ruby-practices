@@ -26,8 +26,6 @@ unless frames[10].nil?
   frames.delete_at(10)
 end
 
-p frames
-
 #　点数計算パート
 point = 0
 frame_number = 1
