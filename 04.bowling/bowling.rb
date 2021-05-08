@@ -1,3 +1,5 @@
+#! /usr/bin/env ruby
+
 # フレームごとの配列に整えるパート
 score = ARGV[0]
 scores = score.split(',')
