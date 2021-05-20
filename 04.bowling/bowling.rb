@@ -17,10 +17,7 @@ scores.each do |s|
   end
 end
 
-frames = []
-shots.each_slice(2) do |s|
-  frames << s
-end
+frames = shots.each_slice(2).to_a
 
 unless frames[10].nil?
   frames[9].push(frames[10]).flatten!
