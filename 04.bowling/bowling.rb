@@ -21,7 +21,7 @@ frames = shots.each_slice(2).to_a
 
 unless frames[10].nil?
   frames[9].push(frames[10]).flatten!
-  frames.delete_at(10)
+  frames.pop
 end
 
 # 点数計算パート
