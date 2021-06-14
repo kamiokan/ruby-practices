@@ -1,23 +1,25 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'optparse'
 require 'etc'
 
 # ファイルタイプを取得する
 def select_file_type(type_name)
   case type_name
-  when 'directory' then
+  when 'directory'
     'd'
-  when 'file' then
+  when 'file'
     '-'
-  when 'characterSpecial' then
+  when 'characterSpecial'
     'c'
-  when 'blockSpecial' then
+  when 'blockSpecial'
     'b'
-  when 'fifo' then
+  when 'fifo'
     'p'
-  when 'link' then
+  when 'link'
     'l'
-  when 'socket' then
+  when 'socket'
     's'
   else
     '?'
@@ -47,7 +49,7 @@ def display(array)
   res_array = []
 
   i = 0
-  while i < step do
+  while i < step
     res_array << [array[i], array[i + step], array[i + step * 2]]
     i += 1
   end
@@ -86,14 +88,14 @@ files.delete_if { |f| /^\..*/ =~ f } unless options['a']
 if options['l']
   files_with_info = []
   files.each do |f|
-    s = File::stat(f)
+    s = File.stat(f)
     new_f = select_file_type(s.ftype)
-    new_f += convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), array_to_rwx) + '  '
-    new_f += sprintf('%2d', s.nlink.to_s) + ' '
-    new_f += Etc.getpwuid(s.uid).name + '  '
-    new_f += Etc.getgrgid(s.gid).name + ' '
-    new_f += sprintf('%5d', s.size.to_s) + ' '
-    new_f += s.mtime.strftime('%_m %e %H:%M') + ' '
+    new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), array_to_rwx)}  "
+    new_f += "#{format('%2d', s.nlink.to_s)} "
+    new_f += "#{Etc.getpwuid(s.uid).name}  "
+    new_f += "#{Etc.getgrgid(s.gid).name} "
+    new_f += "#{format('%5d', s.size.to_s)} "
+    new_f += "#{s.mtime.strftime('%_m %e %H:%M')} "
     new_f += f
     files_with_info << new_f
   end
