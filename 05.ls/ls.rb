@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'etc'
+
+# ファイルタイプを取得する
+def select_file_type(type_name)
+  case type_name
+  when 'directory' then
+    'd'
+  when 'file' then
+    '-'
+  when 'characterSpecial' then
+    'c'
+  when 'blockSpecial' then
+    'b'
+  when 'fifo' then
+    'p'
+  when 'link' then
+    'l'
+  when 'socket' then
+    's'
+  else
+    '?'
+  end
+end
+
+# ファイルパーミッションを数字からwrxに変換するための配列
+array_to_rwx = %w[--- --x -w- -wx r-- r-x rw- rwx]
+
+# ファイルパーミッション数字をwrxに変換する
+def convert_int_to_rwx(number, array)
+  array[number.slice(0).to_i] + array[number.slice(1).to_i] + array[number.slice(2).to_i]
+end
+
+# ファイル名の最大の長さを取得する
+def get_longest_size(files)
+  longest_size = 0
+  files.each do |f|
+    longest_size = f.size if f.size > longest_size
+  end
+  longest_size
+end
+
+# 表示する
+def display(array)
+  step = (array.size / 3.0).ceil
+  res_array = []
+
+  i = 0
+  while i < step do
+    res_array << [array[i], array[i + step], array[i + step * 2]]
+    i += 1
+  end
+
+  longest_file_name_size = get_longest_size(array)
+  res_array.each do |arr|
+    arr.each_with_index do |n, index|
+      unless n.nil?
+        printf("%#-#{longest_file_name_size}s", n)
+        print ' ' * 5
+      end
+      puts if index == 2
+    end
+  end
+end
+
+# ここから実行パート
+options = ARGV.getopts('a', 'l', 'r')
+
+files = []
+Dir.foreach('.') do |f|
+  files << f
+end
+
+files.sort!
+
+# オプション -r 逆順にする
+files.reverse! if options['r']
+
+# オプション -a 無いとき
+# ドットで始まるファイルを取り除く
+files.delete_if { |f| /^\..*/ =~ f } unless options['a']
+
+# オプション -l
+# ファイル情報を追加する
+if options['l']
+  files_with_info = []
+  files.each do |f|
+    s = File::stat(f)
+    new_f = select_file_type(s.ftype)
+    new_f += convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), array_to_rwx) + '  '
+    new_f += sprintf('%2d', s.nlink.to_s) + ' '
+    new_f += Etc.getpwuid(s.uid).name + '  '
+    new_f += Etc.getgrgid(s.gid).name + ' '
+    new_f += sprintf('%5d', s.size.to_s) + ' '
+    new_f += s.mtime.strftime('%_m %e %H:%M') + ' '
+    new_f += f
+    files_with_info << new_f
+  end
+  files = files_with_info
+end
+
+# 出力する
+# オプション -l 無い時
+# 指定した列数で並べる
+if options['l']
+  files.each do |f|
+    puts f
+  end
+else
+  display(files)
+end
