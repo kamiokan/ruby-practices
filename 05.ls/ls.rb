@@ -9,25 +9,25 @@ ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
 def main
   options = ARGV.getopts('a', 'l', 'r')
 
-  files = []
+  file_names = []
   Dir.foreach('.') do |f|
-    files << f
+    file_names << f
   end
 
-  files.sort!
+  file_names.sort!
 
   # オプション -r 逆順にする
-  files.reverse! if options['r']
+  file_names.reverse! if options['r']
 
   # オプション -a 無いとき
   # ドットで始まるファイルを取り除く
-  files.delete_if { |f| /^\..*/ =~ f } unless options['a']
+  file_names.delete_if { |f| /^\..*/ =~ f } unless options['a']
 
   # オプション -l
   # ファイル情報を追加する
   if options['l']
     files_with_info = []
-    files.each do |f|
+    file_names.each do |f|
       s = File.stat(f)
       new_f = select_file_type(s.ftype)
       new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
@@ -39,18 +39,18 @@ def main
       new_f += f
       files_with_info << new_f
     end
-    files = files_with_info
+    file_names = files_with_info
   end
 
   # 出力する
   # オプション -l 無い時
   # 指定した列数で並べる
   if options['l']
-    files.each do |f|
+    file_names.each do |f|
       puts f
     end
   else
-    display(files)
+    display(file_names)
   end
 end
 
