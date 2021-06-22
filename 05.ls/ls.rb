@@ -12,8 +12,7 @@ def main
   file_names = file_names.sort
   file_names = file_names.reverse if options['r']
   if options['l']
-    files_with_info = []
-    file_names.each do |file_name|
+    files_with_info = file_names.map do |file_name|
       stat = File.stat(file_name)
       file_info = ''
       file_info += to_file_type_char(stat.ftype)
@@ -24,20 +23,19 @@ def main
       file_info += "#{format('%5d', stat.size.to_s)} "
       file_info += "#{stat.mtime.strftime('%_m %e %H:%M')} "
       file_info += file_name
-      files_with_info << file_info
+      file_info
     end
-    file_names = files_with_info
   end
 
   # 出力する
   # オプション -l 無い時
   # 指定した列数で並べる
   if options['l']
-    file_names.each do |f|
+    files_with_info.each do |f|
       puts f
     end
   else
-    display(file_names)
+    display(files_with_info)
   end
 end
 
