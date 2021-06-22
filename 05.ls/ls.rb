@@ -73,17 +73,17 @@ def get_longest_size(files)
 end
 
 # 表示する
-def display(array)
-  step = (array.size / 3.0).ceil
+def display(file_names)
+  step = (file_names.size / 3.0).ceil
   arithmetic_progression = []
 
   i = 0
   while i < step
-    arithmetic_progression << [array[i], array[i + step], array[i + step * 2]]
+    arithmetic_progression << [file_names[i], file_names[i + step], file_names[i + step * 2]]
     i += 1
   end
 
-  longest_file_name_size = get_longest_size(array)
+  longest_file_name_size = get_longest_size(file_names)
   arithmetic_progression.each do |arr|
     arr.each_with_index do |n, index|
       unless n.nil?
