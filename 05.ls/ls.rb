@@ -66,7 +66,11 @@ end
 # ファイルパーミッション数字をwrxに変換する
 def convert_int_to_rwx(stat)
   number = stat.mode.to_s(8).slice(3, 5)
-  ARRAY_TO_RWX[number.slice(0).to_i] + ARRAY_TO_RWX[number.slice(1).to_i] + ARRAY_TO_RWX[number.slice(2).to_i]
+  result = ''
+  (0..2).each do |i|
+    result += ARRAY_TO_RWX[number.slice(i).to_i]
+  end
+  result
 end
 
 # ファイル名の最大の長さを取得する
