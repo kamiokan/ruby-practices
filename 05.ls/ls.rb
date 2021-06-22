@@ -18,14 +18,14 @@ def main
   if options['l']
     files_with_info = []
     file_names.each do |f|
-      s = File.stat(f)
-      new_f = select_file_type(s.ftype)
-      new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
-      new_f += "#{format('%2d', s.nlink.to_s)} "
-      new_f += "#{Etc.getpwuid(s.uid).name}  "
-      new_f += "#{Etc.getgrgid(s.gid).name} "
-      new_f += "#{format('%5d', s.size.to_s)} "
-      new_f += "#{s.mtime.strftime('%_m %e %H:%M')} "
+      stat = File.stat(f)
+      new_f = select_file_type(stat.ftype)
+      new_f += "#{convert_int_to_rwx(stat.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
+      new_f += "#{format('%2d', stat.nlink.to_s)} "
+      new_f += "#{Etc.getpwuid(stat.uid).name}  "
+      new_f += "#{Etc.getgrgid(stat.gid).name} "
+      new_f += "#{format('%5d', stat.size.to_s)} "
+      new_f += "#{stat.mtime.strftime('%_m %e %H:%M')} "
       new_f += f
       files_with_info << new_f
     end
