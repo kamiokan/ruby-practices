@@ -77,10 +77,8 @@ def display(file_names)
   step = (file_names.size / 3.0).ceil
   arithmetic_progression = []
 
-  i = 0
-  while i < step
+  step.times do |i|
     arithmetic_progression << [file_names[i], file_names[i + step], file_names[i + step * 2]]
-    i += 1
   end
 
   longest_file_name_size = get_longest_size(file_names)
