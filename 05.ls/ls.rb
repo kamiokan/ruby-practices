@@ -4,6 +4,54 @@
 require 'optparse'
 require 'etc'
 
+def main
+  options = ARGV.getopts('a', 'l', 'r')
+
+  files = []
+  Dir.foreach('.') do |f|
+    files << f
+  end
+
+  files.sort!
+
+  # オプション -r 逆順にする
+  files.reverse! if options['r']
+
+  # オプション -a 無いとき
+  # ドットで始まるファイルを取り除く
+  files.delete_if { |f| /^\..*/ =~ f } unless options['a']
+
+  # オプション -l
+  # ファイル情報を追加する
+  if options['l']
+    files_with_info = []
+    files.each do |f|
+      s = File.stat(f)
+      new_f = select_file_type(s.ftype)
+      new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), array_to_rwx)}  "
+      new_f += "#{format('%2d', s.nlink.to_s)} "
+      new_f += "#{Etc.getpwuid(s.uid).name}  "
+      new_f += "#{Etc.getgrgid(s.gid).name} "
+      new_f += "#{format('%5d', s.size.to_s)} "
+      new_f += "#{s.mtime.strftime('%_m %e %H:%M')} "
+      new_f += f
+      files_with_info << new_f
+    end
+    files = files_with_info
+  end
+
+  # 出力する
+  # オプション -l 無い時
+  # 指定した列数で並べる
+  if options['l']
+    files.each do |f|
+      puts f
+    end
+  else
+    display(files)
+  end
+end
+
 # ファイルタイプを取得する
 def select_file_type(type_name)
   case type_name
@@ -66,49 +114,4 @@ def display(array)
   end
 end
 
-# ここから実行パート
-options = ARGV.getopts('a', 'l', 'r')
-
-files = []
-Dir.foreach('.') do |f|
-  files << f
-end
-
-files.sort!
-
-# オプション -r 逆順にする
-files.reverse! if options['r']
-
-# オプション -a 無いとき
-# ドットで始まるファイルを取り除く
-files.delete_if { |f| /^\..*/ =~ f } unless options['a']
-
-# オプション -l
-# ファイル情報を追加する
-if options['l']
-  files_with_info = []
-  files.each do |f|
-    s = File.stat(f)
-    new_f = select_file_type(s.ftype)
-    new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), array_to_rwx)}  "
-    new_f += "#{format('%2d', s.nlink.to_s)} "
-    new_f += "#{Etc.getpwuid(s.uid).name}  "
-    new_f += "#{Etc.getgrgid(s.gid).name} "
-    new_f += "#{format('%5d', s.size.to_s)} "
-    new_f += "#{s.mtime.strftime('%_m %e %H:%M')} "
-    new_f += f
-    files_with_info << new_f
-  end
-  files = files_with_info
-end
-
-# 出力する
-# オプション -l 無い時
-# 指定した列数で並べる
-if options['l']
-  files.each do |f|
-    puts f
-  end
-else
-  display(files)
-end
+main
