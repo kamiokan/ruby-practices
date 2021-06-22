@@ -75,16 +75,16 @@ end
 # 表示する
 def display(array)
   step = (array.size / 3.0).ceil
-  res_array = []
+  arithmetic_progression = []
 
   i = 0
   while i < step
-    res_array << [array[i], array[i + step], array[i + step * 2]]
+    arithmetic_progression << [array[i], array[i + step], array[i + step * 2]]
     i += 1
   end
 
   longest_file_name_size = get_longest_size(array)
-  res_array.each do |arr|
+  arithmetic_progression.each do |arr|
     arr.each_with_index do |n, index|
       unless n.nil?
         printf("%#-#{longest_file_name_size}s", n)
