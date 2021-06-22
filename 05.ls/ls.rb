@@ -17,10 +17,10 @@ def main
       file_info = ''
       file_info += to_file_type_char(stat.ftype)
       file_info += "#{convert_int_to_rwx(stat)}  "
-      file_info += "#{format('%2d', stat.nlink.to_s)} "
+      file_info += "#{format('%2d', stat.nlink)} "
       file_info += "#{Etc.getpwuid(stat.uid).name}  "
       file_info += "#{Etc.getgrgid(stat.gid).name} "
-      file_info += "#{format('%5d', stat.size.to_s)} "
+      file_info += "#{format('%5d', stat.size)} "
       file_info += "#{stat.mtime.strftime('%_m %e %H:%M')} "
       file_info += file_name
       file_info
