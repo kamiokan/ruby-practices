@@ -17,7 +17,7 @@ def main
       stat = File.stat(file_name)
       file_info = ''
       file_info += to_file_type_char(stat.ftype)
-      file_info += "#{convert_int_to_rwx(stat.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
+      file_info += "#{convert_int_to_rwx(stat, ARRAY_TO_RWX)}  "
       file_info += "#{format('%2d', stat.nlink.to_s)} "
       file_info += "#{Etc.getpwuid(stat.uid).name}  "
       file_info += "#{Etc.getgrgid(stat.gid).name} "
@@ -64,7 +64,8 @@ def to_file_type_char(type_name)
 end
 
 # ファイルパーミッション数字をwrxに変換する
-def convert_int_to_rwx(number, array)
+def convert_int_to_rwx(stat, array)
+  number = stat.mode.to_s(8).slice(3, 5)
   array[number.slice(0).to_i] + array[number.slice(1).to_i] + array[number.slice(2).to_i]
 end
 
