@@ -4,6 +4,8 @@
 require 'optparse'
 require 'etc'
 
+ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
+
 def main
   options = ARGV.getopts('a', 'l', 'r')
 
@@ -28,7 +30,7 @@ def main
     files.each do |f|
       s = File.stat(f)
       new_f = select_file_type(s.ftype)
-      new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), array_to_rwx)}  "
+      new_f += "#{convert_int_to_rwx(s.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
       new_f += "#{format('%2d', s.nlink.to_s)} "
       new_f += "#{Etc.getpwuid(s.uid).name}  "
       new_f += "#{Etc.getgrgid(s.gid).name} "
@@ -73,9 +75,6 @@ def select_file_type(type_name)
     '?'
   end
 end
-
-# ファイルパーミッションを数字からwrxに変換するための配列
-array_to_rwx = %w[--- --x -w- -wx r-- r-x rw- rwx]
 
 # ファイルパーミッション数字をwrxに変換する
 def convert_int_to_rwx(number, array)
