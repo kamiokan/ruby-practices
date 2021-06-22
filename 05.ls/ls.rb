@@ -75,10 +75,8 @@ end
 # 表示する
 def display(file_names)
   step = (file_names.size / 3.0).ceil
-  arithmetic_progression = []
-
-  step.times do |i|
-    arithmetic_progression << [file_names[i], file_names[i + step], file_names[i + step * 2]]
+  arithmetic_progression = Array.new(step) do |i|
+    [file_names[i], file_names[i + step], file_names[i + step * 2]]
   end
 
   longest_file_name_size = get_longest_size(file_names)
