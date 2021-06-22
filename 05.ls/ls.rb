@@ -16,7 +16,7 @@ def main
     file_names.each do |file_name|
       stat = File.stat(file_name)
       file_info = ''
-      file_info += select_file_type(stat.ftype)
+      file_info += to_file_type_char(stat.ftype)
       file_info += "#{convert_int_to_rwx(stat.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
       file_info += "#{format('%2d', stat.nlink.to_s)} "
       file_info += "#{Etc.getpwuid(stat.uid).name}  "
@@ -42,7 +42,7 @@ def main
 end
 
 # ファイルタイプを取得する
-def select_file_type(type_name)
+def to_file_type_char(type_name)
   case type_name
   when 'directory'
     'd'
