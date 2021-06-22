@@ -63,15 +63,6 @@ def convert_int_to_rwx(stat)
   result
 end
 
-# ファイル名の最大の長さを取得する
-def get_longest_size(files)
-  longest_size = 0
-  files.each do |f|
-    longest_size = f.size if f.size > longest_size
-  end
-  longest_size
-end
-
 # 表示する
 def display(file_names)
   step = (file_names.size / 3.0).ceil
@@ -79,7 +70,7 @@ def display(file_names)
     [file_names[i], file_names[i + step], file_names[i + step * 2]]
   end
 
-  longest_file_name_size = get_longest_size(file_names)
+  longest_file_name_size = file_names.max_by(&:length).size
   arithmetic_progression.each do |arr|
     arr.each_with_index do |n, index|
       unless n.nil?
