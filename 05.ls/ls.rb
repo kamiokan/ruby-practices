@@ -25,17 +25,9 @@ def main
       file_info += file_name
       file_info
     end
-  end
-
-  # 出力する
-  # オプション -l 無い時
-  # 指定した列数で並べる
-  if options['l']
-    files_with_info.each do |f|
-      puts f
-    end
+    puts files_with_info
   else
-    display(files_with_info)
+    display(file_names)
   end
 end
 
