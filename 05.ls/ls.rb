@@ -9,15 +9,9 @@ ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
 def main
   options = ARGV.getopts('a', 'l', 'r')
 
-  file_names = []
-  Dir.foreach('.') do |f|
-    file_names << f
-  end
-
-  file_names.sort!
-
-  # オプション -r 逆順にする
-  file_names.reverse! if options['r']
+  file_names = Dir.foreach('.').to_a
+  file_names = file_names.sort
+  file_names = file_names.reverse if options['r']
 
   # オプション -a 無いとき
   # ドットで始まるファイルを取り除く
