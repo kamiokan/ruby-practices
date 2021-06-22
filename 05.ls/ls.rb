@@ -8,26 +8,23 @@ ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
 
 def main
   options = ARGV.getopts('a', 'l', 'r')
-
   file_names = options['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
   file_names = file_names.sort
   file_names = file_names.reverse if options['r']
-
-  # オプション -l
-  # ファイル情報を追加する
   if options['l']
     files_with_info = []
-    file_names.each do |f|
-      stat = File.stat(f)
-      new_f = select_file_type(stat.ftype)
-      new_f += "#{convert_int_to_rwx(stat.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
-      new_f += "#{format('%2d', stat.nlink.to_s)} "
-      new_f += "#{Etc.getpwuid(stat.uid).name}  "
-      new_f += "#{Etc.getgrgid(stat.gid).name} "
-      new_f += "#{format('%5d', stat.size.to_s)} "
-      new_f += "#{stat.mtime.strftime('%_m %e %H:%M')} "
-      new_f += f
-      files_with_info << new_f
+    file_names.each do |file_name|
+      stat = File.stat(file_name)
+      file_info = ''
+      file_info += select_file_type(stat.ftype)
+      file_info += "#{convert_int_to_rwx(stat.mode.to_s(8).slice(3, 5), ARRAY_TO_RWX)}  "
+      file_info += "#{format('%2d', stat.nlink.to_s)} "
+      file_info += "#{Etc.getpwuid(stat.uid).name}  "
+      file_info += "#{Etc.getgrgid(stat.gid).name} "
+      file_info += "#{format('%5d', stat.size.to_s)} "
+      file_info += "#{stat.mtime.strftime('%_m %e %H:%M')} "
+      file_info += file_name
+      files_with_info << file_info
     end
     file_names = files_with_info
   end
