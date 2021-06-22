@@ -9,13 +9,9 @@ ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
 def main
   options = ARGV.getopts('a', 'l', 'r')
 
-  file_names = Dir.foreach('.').to_a
+  file_names = options['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
   file_names = file_names.sort
   file_names = file_names.reverse if options['r']
-
-  # オプション -a 無いとき
-  # ドットで始まるファイルを取り除く
-  file_names.delete_if { |f| /^\..*/ =~ f } unless options['a']
 
   # オプション -l
   # ファイル情報を追加する
