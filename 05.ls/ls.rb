@@ -3,6 +3,7 @@
 
 require 'optparse'
 require 'etc'
+require 'io/console'
 
 ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
 
@@ -55,11 +56,12 @@ def display(file_names)
   end
 
   longest_file_name_size = file_names.max_by(&:length).size
-  arithmetic_progression.each do |arr|
-    arr.each_with_index do |n, index|
-      unless n.nil?
-        printf("%#-#{longest_file_name_size}s", n)
-        print ' ' * 5
+  console_width = IO.console.winsize[1]
+  arithmetic_progression.each do |file_names_arr|
+    file_names_arr.each_with_index do |file_name, index|
+      unless file_name.nil?
+        display_width = [(longest_file_name_size + 1), (console_width / 3)].max
+        print file_name.ljust(display_width)
       end
       puts if index == 2
     end
