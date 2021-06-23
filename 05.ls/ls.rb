@@ -12,8 +12,10 @@ def main
   file_names = file_names.sort
   file_names = file_names.reverse if options['r']
   if options['l']
+    blocks = 0
     files_with_info = file_names.map do |file_name|
       stat = File.stat(file_name)
+      blocks += stat.blocks
       file_info = ''
       file_info += to_file_type_char(stat.ftype)
       file_info += "#{convert_int_to_rwx(stat)}  "
@@ -25,6 +27,7 @@ def main
       file_info += file_name
       file_info
     end
+    puts "total #{blocks}"
     puts files_with_info
   else
     display(file_names)
