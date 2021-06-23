@@ -50,9 +50,13 @@ def convert_int_to_rwx(stat)
 end
 
 def display(file_names)
-  step = (file_names.size / 3.0).ceil
+  column = 3
+  step = (file_names.size / column.to_f).ceil
   arithmetic_progression = Array.new(step) do |i|
-    [file_names[i], file_names[i + step], file_names[i + step * 2]]
+    column_minus_one = column - 1
+    (0..column_minus_one).map do |j|
+      file_names[i + step * j]
+    end
   end
 
   longest_file_name_size = file_names.max_by(&:length).size
@@ -60,10 +64,10 @@ def display(file_names)
   arithmetic_progression.each do |file_names_arr|
     file_names_arr.each_with_index do |file_name, index|
       unless file_name.nil?
-        display_width = [(longest_file_name_size + 1), (console_width / 3)].max
+        display_width = [(longest_file_name_size + 1), (console_width / column)].max
         print file_name.ljust(display_width)
       end
-      puts if index == 2
+      puts if index == column - 1
     end
   end
 end
