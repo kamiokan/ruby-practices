@@ -12,29 +12,12 @@ def main
   file_names = file_names.sort
   file_names = file_names.reverse if options['r']
   if options['l']
-    blocks = 0
-    files_with_info = file_names.map do |file_name|
-      stat = File.stat(file_name)
-      blocks += stat.blocks
-      file_info = ''
-      file_info += to_file_type_char(stat.ftype)
-      file_info += "#{convert_int_to_rwx(stat)}  "
-      file_info += "#{format('%2d', stat.nlink)} "
-      file_info += "#{Etc.getpwuid(stat.uid).name}  "
-      file_info += "#{Etc.getgrgid(stat.gid).name} "
-      file_info += "#{format('%5d', stat.size)} "
-      file_info += "#{stat.mtime.strftime('%_m %e %H:%M')} "
-      file_info += file_name
-      file_info
-    end
-    puts "total #{blocks}"
-    puts files_with_info
+    display_with_l_option(file_names)
   else
     display(file_names)
   end
 end
 
-# ファイルタイプを取得する
 def to_file_type_char(type_name)
   case type_name
   when 'directory'
@@ -56,7 +39,6 @@ def to_file_type_char(type_name)
   end
 end
 
-# ファイルパーミッション数字をwrxに変換する
 def convert_int_to_rwx(stat)
   number = stat.mode.to_s(8).slice(3, 5)
   result = ''
@@ -66,7 +48,6 @@ def convert_int_to_rwx(stat)
   result
 end
 
-# 表示する
 def display(file_names)
   step = (file_names.size / 3.0).ceil
   arithmetic_progression = Array.new(step) do |i|
@@ -83,6 +64,26 @@ def display(file_names)
       puts if index == 2
     end
   end
+end
+
+def display_with_l_option(file_names)
+  blocks = 0
+  files_with_info = file_names.map do |file_name|
+    stat = File.stat(file_name)
+    blocks += stat.blocks
+    file_info = ''
+    file_info += to_file_type_char(stat.ftype)
+    file_info += "#{convert_int_to_rwx(stat)}  "
+    file_info += "#{format('%2d', stat.nlink)} "
+    file_info += "#{Etc.getpwuid(stat.uid).name}  "
+    file_info += "#{Etc.getgrgid(stat.gid).name} "
+    file_info += "#{format('%5d', stat.size)} "
+    file_info += "#{stat.mtime.strftime('%_m %e %H:%M')} "
+    file_info += file_name
+    file_info
+  end
+  puts "total #{blocks}"
+  puts files_with_info
 end
 
 main
