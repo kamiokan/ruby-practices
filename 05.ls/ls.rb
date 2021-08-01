@@ -6,6 +6,7 @@ require 'etc'
 require 'io/console'
 
 ARRAY_TO_RWX = %w[--- --x -w- -wx r-- r-x rw- rwx].freeze
+COLUMN_COUNT = 3
 
 def main
   options = ARGV.getopts('a', 'l', 'r')
@@ -50,10 +51,9 @@ def convert_int_to_rwx(stat)
 end
 
 def display(file_names)
-  column = 3
-  step = (file_names.size / column.to_f).ceil
+  step = (file_names.size / COLUMN_COUNT.to_f).ceil
   arithmetic_progression = Array.new(step) do |i|
-    column_minus_one = column - 1
+    column_minus_one = COLUMN_COUNT - 1
     (0..column_minus_one).map do |j|
       file_names[i + step * j]
     end
@@ -64,10 +64,10 @@ def display(file_names)
   arithmetic_progression.each do |file_names_arr|
     file_names_arr.each_with_index do |file_name, index|
       unless file_name.nil?
-        display_width = [(longest_file_name_size + 1), (console_width / column)].max
+        display_width = [(longest_file_name_size + 1), (console_width / COLUMN_COUNT)].max
         print file_name.ljust(display_width)
       end
-      puts if index == column - 1
+      puts if index == COLUMN_COUNT - 1
     end
   end
 end
