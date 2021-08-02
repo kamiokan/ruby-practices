@@ -53,8 +53,7 @@ end
 def display(file_names)
   step = (file_names.size / COLUMN_COUNT.to_f).ceil
   arithmetic_progression = Array.new(step) do |i|
-    column_minus_one = COLUMN_COUNT - 1
-    (0..column_minus_one).map do |j|
+    Array.new(COLUMN_COUNT) do |j|
       file_names[i + step * j]
     end
   end
