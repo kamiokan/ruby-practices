@@ -42,7 +42,7 @@ def to_file_type_char(type_name)
 end
 
 def convert_int_to_rwx(stat)
-  number = stat.mode.to_s(8).slice(3, 5)
+  number = stat.mode.to_s(8).slice(-3, 3)
   result = ''
   (0..2).each do |i|
     result += ARRAY_TO_RWX[number[i].to_i]
