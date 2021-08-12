@@ -6,7 +6,14 @@ require 'optparse'
 def main
   options = ARGV.getopts('l')
   file_paths = ARGV
-  if file_paths.count == 1
+
+  case file_paths.count
+  when 0
+    text = $stdin.read
+    print text.count('\n').to_s.rjust(8)
+    print text.split(/[\s+,\n]/).size.to_s.rjust(8)
+    puts text.bytesize.to_s.rjust(8)
+  when 1
     file_path = file_paths[0]
     if options['l']
       print format('%8d', count_lines(file_path))
