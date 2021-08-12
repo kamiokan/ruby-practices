@@ -10,18 +10,18 @@ def main
   case file_paths.count
   when 0
     text = $stdin.read
-    print text.count('\n').to_s.rjust(8)
-    print text.split(/[\s+,\n]/).size.to_s.rjust(8)
+    print text.lines.count.to_s.rjust(8)
+    print text.split(/\s+/).size.to_s.rjust(8)
     puts text.bytesize.to_s.rjust(8)
   when 1
     file_path = file_paths[0]
     if options['l']
-      print format('%8d', count_lines(file_path))
+      print count_lines(file_path).to_s.rjust(8)
       puts " #{file_path}"
     else
-      print format('%8d', count_lines(file_path))
-      print format('%8d', count_words(file_path))
-      print format('%8d', count_bytes(file_path))
+      print count_lines(file_path).to_s.rjust(8)
+      print count_words(file_path).to_s.rjust(8)
+      print count_bytes(file_path).to_s.rjust(8)
       puts " #{file_path}"
     end
   else
@@ -31,25 +31,25 @@ def main
     file_paths.each do |file_path|
       if options['l']
         total_count_lines += count_lines(file_path)
-        print format('%8d', count_lines(file_path))
+        print count_lines(file_path).to_s.rjust(8)
         puts " #{file_path}"
       else
         total_count_lines += count_lines(file_path)
         total_count_words += count_words(file_path)
         total_count_bytes += count_bytes(file_path)
-        print format('%8d', count_lines(file_path))
-        print format('%8d', count_words(file_path))
-        print format('%8d', count_bytes(file_path))
+        print count_lines(file_path).to_s.rjust(8)
+        print count_words(file_path).to_s.rjust(8)
+        print count_bytes(file_path).to_s.rjust(8)
         puts " #{file_path}"
       end
     end
     if options['l']
-      print format('%8d', total_count_lines)
+      print total_count_lines.to_s.rjust(8)
       puts ' total'
     else
-      print format('%8d', total_count_lines)
-      print format('%8d', total_count_words)
-      print format('%8d', total_count_bytes)
+      print total_count_lines.to_s.rjust(8)
+      print total_count_words.to_s.rjust(8)
+      print total_count_bytes.to_s.rjust(8)
       puts ' total'
     end
   end
@@ -60,8 +60,7 @@ def count_lines(file_path)
 end
 
 def count_words(file_path)
-  strings = File.read(file_path)
-  strings.split(/[\s+,\n]/).size
+  File.read(file_path).split(/\s+/).size
 end
 
 def count_bytes(file_path)
