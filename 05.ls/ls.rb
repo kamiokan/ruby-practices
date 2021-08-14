@@ -78,11 +78,11 @@ def display_with_l_option(file_names)
     blocks += stat.blocks
     file_info = ''
     file_info += to_file_type_char(stat.ftype)
-    file_info += "#{convert_int_to_rwx(stat)}  "
-    file_info += "#{format('%2d', stat.nlink)} "
+    file_info += "#{convert_int_to_rwx(stat)} "
+    file_info += "#{stat.nlink.to_s.rjust(2)} "
     file_info += "#{Etc.getpwuid(stat.uid).name}  "
     file_info += "#{Etc.getgrgid(stat.gid).name} "
-    file_info += "#{format('%5d', stat.size)} "
+    file_info += "#{stat.size.to_s.rjust(5)} "
     file_info += "#{stat.mtime.strftime('%_m %e %H:%M')} "
     file_info += file_name
     file_info
