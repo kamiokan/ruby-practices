@@ -16,11 +16,11 @@ def main
     display_one_argument(file_path, options)
   else
     total_count = { lines: 0, words: 0, bytes: 0 }
-    file_paths.each do |file_path|
-      total_count[:lines] += count_lines(file_path)
-      total_count[:words] += count_words(file_path)
-      total_count[:bytes] += count_bytes(file_path)
-      display_multiple_arguments(file_path, options)
+    file_paths.each do |f|
+      total_count[:lines] += count_lines(f)
+      total_count[:words] += count_words(f)
+      total_count[:bytes] += count_bytes(f)
+      display_multiple_arguments(f, options)
     end
     display_total_count(total_count, options)
   end
