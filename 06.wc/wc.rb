@@ -13,14 +13,14 @@ def main
     display_zero_argument(text, options)
   when 1
     file_path = file_paths[0]
-    display_arguments(file_path, options)
+    display_some_arguments(file_path, options)
   else
     total_count = { lines: 0, words: 0, bytes: 0 }
     file_paths.each do |f|
       total_count[:lines] += count_lines(f)
       total_count[:words] += count_words(f)
       total_count[:bytes] += count_bytes(f)
-      display_arguments(f, options)
+      display_some_arguments(f, options)
     end
     display_total_count(total_count, options)
   end
@@ -46,7 +46,7 @@ def display_zero_argument(text, options)
   puts text.bytesize.to_s.rjust(8)
 end
 
-def display_arguments(file_path, options)
+def display_some_arguments(file_path, options)
   print count_lines(file_path).to_s.rjust(8)
   unless options['l']
     print count_words(file_path).to_s.rjust(8)
