@@ -21,26 +21,14 @@ def main
     total_count = { lines: 0, words: 0, bytes: 0 }
     file_paths.each do |f|
       text = File.read(f)
-      total_count[:lines] += count_lines(text)
-      total_count[:words] += count_words(text)
-      total_count[:bytes] += count_bytes(text)
+      total_count[:lines] += text.lines.count
+      total_count[:words] += text.split(/\s+/).size
+      total_count[:bytes] += text.bytesize
       display_arguments(text, options)
       puts " #{f}"
     end
     display_total_count(total_count, options)
   end
-end
-
-def count_lines(text)
-  text.lines.count
-end
-
-def count_words(text)
-  text.split(/\s+/).size
-end
-
-def count_bytes(text)
-  text.bytesize
 end
 
 def display_arguments(text, options)
