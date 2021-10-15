@@ -10,12 +10,12 @@ def main
   case file_paths.count
   when 0
     text = $stdin.read
-    display_zero_argument(text, options)
+    display_arguments(text, options)
     puts
   when 1
     file_path = file_paths[0]
     text = File.read(file_path)
-    display_some_arguments(text, options)
+    display_arguments(text, options)
     puts " #{file_path}"
   else
     total_count = { lines: 0, words: 0, bytes: 0 }
@@ -24,7 +24,7 @@ def main
       total_count[:lines] += count_lines(text)
       total_count[:words] += count_words(text)
       total_count[:bytes] += count_bytes(text)
-      display_some_arguments(text, options)
+      display_arguments(text, options)
       puts " #{f}"
     end
     display_total_count(total_count, options)
@@ -43,15 +43,7 @@ def count_bytes(text)
   text.bytesize
 end
 
-def display_zero_argument(text, options)
-  print text.lines.count.to_s.rjust(8)
-  return if options['l']
-
-  print text.split(/\s+/).size.to_s.rjust(8)
-  print text.bytesize.to_s.rjust(8)
-end
-
-def display_some_arguments(text, options)
+def display_arguments(text, options)
   print text.lines.count.to_s.rjust(8)
   return if options['l']
 
