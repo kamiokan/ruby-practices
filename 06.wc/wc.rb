@@ -9,14 +9,11 @@ def main
 
   case file_paths.count
   when 0
-    text = $stdin.read
-    display_arguments(text, options)
+    display_arguments($stdin.read, options)
     puts
   when 1
-    file_path = file_paths[0]
-    text = File.read(file_path)
-    display_arguments(text, options)
-    puts " #{file_path}"
+    display_arguments(File.read(file_paths[0]), options)
+    puts " #{file_paths[0]}"
   else
     total_count = { lines: 0, words: 0, bytes: 0 }
     file_paths.each do |f|
